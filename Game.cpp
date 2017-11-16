@@ -1,14 +1,15 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "MainMenu.h"
+#include "SplashScreen.h"
 
 void Game::Start( void ){
-    std::cout<< "bang";
     if(_gameState != Uninitialized ){
         return;
     }
 
     _mainWindow.create(sf::VideoMode(1024, 768, 32), "Pang!");
-    _gameState = Game::Playing;
+    _gameState = Game::ShowingSplash;
 
     while( !IsExiting() ){
         GameLoop();
@@ -31,6 +32,18 @@ void Game::GameLoop(){
     while( _mainWindow.pollEvent(currentEvent) ){
         
         switch(_gameState){
+            case Game::ShowingMenu:
+            {
+                ShowMenu();
+                break;
+            }
+
+            case Game::ShowingSplash:
+            {
+                ShowSplashScreen();
+                break;
+            }
+
             case Game::Playing:
             {
                 _mainWindow.clear( sf::Color(255, 0, 0) );
@@ -39,6 +52,13 @@ void Game::GameLoop(){
                 if( currentEvent.type == sf::Event::Closed){
                     _gameState = Game::Exiting;
                 }
+
+                if( currentEvent.type == sf::Event::KeyPressed){
+                    if(currentEvent.key.code == sf::Keyboard::Escape ){
+                        ShowMenu();
+                    }
+                }
+
                 break;
             }
 
@@ -47,6 +67,25 @@ void Game::GameLoop(){
 
     }
 
+}
+
+void Game::ShowSplashScreen(){
+    SplashScreen splashScreen;
+    splashScreen.Show(_mainWindow);
+    _gameState = Game::ShowingMenu;
+}
+
+void Game::ShowMenu(){
+    MainMenu mainMenu;
+    MainMenu::MenuResult result = mainMenu.Show(_mainWindow);
+    switch( result ){
+        case MainMenu::Exit:
+            _gameState = Game::Exiting;
+            break;
+        case MainMenu::Play:
+            _gameState = Game::Playing;
+            break;
+    }
 }
 
 Game::GameState Game::_gameState = Uninitialized;
