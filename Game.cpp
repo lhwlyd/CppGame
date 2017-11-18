@@ -9,6 +9,10 @@ void Game::Start( void ){
     }
 
     _mainWindow.create(sf::VideoMode(1024, 768, 32), "Pang!");
+
+    _player1.Load( "images/paddle.png");
+    _player1.SetPosition( (1024/2)-45, 700 );
+
     _gameState = Game::ShowingSplash;
 
     while( !IsExiting() ){
@@ -29,24 +33,27 @@ bool Game::IsExiting(){
 void Game::GameLoop(){
     sf::Event currentEvent;
 
-    while( _mainWindow.pollEvent(currentEvent) ){
         
-        switch(_gameState){
-            case Game::ShowingMenu:
-            {
-                ShowMenu();
-                break;
-            }
+    switch(_gameState){
+        case Game::ShowingMenu:
+        {
+            ShowMenu();
+            break;
+        }
 
-            case Game::ShowingSplash:
-            {
-                ShowSplashScreen();
-                break;
-            }
+        case Game::ShowingSplash:
+        {
+            ShowSplashScreen();
+            break;
+        }
 
-            case Game::Playing:
-            {
+        case Game::Playing:
+        {
+            sf::Event currentEvent;
+            while( _mainWindow.pollEvent(currentEvent) ){
+                
                 _mainWindow.clear( sf::Color(255, 0, 0) );
+                _player1.Draw(_mainWindow);
                 _mainWindow.display();
 
                 if( currentEvent.type == sf::Event::Closed){
@@ -59,13 +66,16 @@ void Game::GameLoop(){
                     }
                 }
 
-                break;
             }
+
+            break;      
 
         }
 
-
     }
+
+
+    
 
 }
 
@@ -90,4 +100,5 @@ void Game::ShowMenu(){
 
 Game::GameState Game::_gameState = Uninitialized;
 sf::RenderWindow Game::_mainWindow;
+PlayerPaddle Game::_player1;
 
