@@ -13,5 +13,8 @@ VisibleGameObject.o: stdafx.h stdafx.cpp
 PlayerPaddle.o: VisibleGameObject.o
 	g++ -c PlayerPaddle.cpp
 
-play: pang.o Game.o stdafx.o MainMenu.o SplashScreen.o PlayerPaddle.o
-	g++ pang.o Game.o stdafx.o MainMenu.o SplashScreen.o PlayerPaddle.o VisibleGameObject.o -o play -lsfml-graphics -lsfml-window -lsfml-system
+GameObjectManager.o: GameObjectManager.h GameObjectManager.cpp
+	g++ -c GameObjectManager.cpp
+
+play: pang.o Game.o stdafx.o MainMenu.o SplashScreen.o PlayerPaddle.o GameObjectManager.o
+	g++ pang.o Game.o stdafx.o MainMenu.o SplashScreen.o PlayerPaddle.o VisibleGameObject.o GameObjectManager.o -o play -lsfml-graphics -lsfml-window -lsfml-system
