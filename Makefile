@@ -1,10 +1,12 @@
 CXX=g++
-CXXFLAGS=-g -std=c++11 -Wall 
-LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS=-g -std=c++11 -Wall
+SFML_FLAGS=-lsfml-graphics -lsfml-window -lsfml-system
 #BIN=prog
 
-#SRC=$(wildcard *.cpp)
-#OBJ=$(SRC:%.cpp=%.o)
+SRCS=$(wildcard *.cpp)
+OBJS=$(SRC:%.cpp=%.o)
+
+all: play clean
 
 pang.o: Game.h Game.cpp stdafx.h stdafx.cpp
 	g++ -c pang.cpp
@@ -27,8 +29,10 @@ GameObjectManager.o: GameObjectManager.h GameObjectManager.cpp
 GameBall.o: GameBall.h GameBall.cpp
 	g++ -c GameBall.cpp
 
-play: pang.o Game.o stdafx.o MainMenu.o SplashScreen.o PlayerPaddle.o GameObjectManager.o GameBall.o
-	$(CXX) pang.o Game.o stdafx.o MainMenu.o SplashScreen.o PlayerPaddle.o VisibleGameObject.o GameObjectManager.o GameBall.o -o play -lsfml-graphics -lsfml-window -lsfml-system
+play: $(OBJS)
+	$(CXX) *.o -o play $(SFML_FLAGS)
 
+.PHONY: clean
 clean:
 	rm -f *.o
+	@echo clean done
