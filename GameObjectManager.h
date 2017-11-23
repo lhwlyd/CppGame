@@ -15,7 +15,10 @@ public:
 
     void DrawAll(sf::RenderWindow& renderWindow);
 
+    void UpdateAll();
+
 private:
+    sf::Clock clock;
     std::map<std::string, VisibleGameObject*> _gameObjects;
 
     struct GameObjectDeallocator{

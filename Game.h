@@ -3,12 +3,15 @@
 #include "SFML/Graphics.hpp"
 #include "PlayerPaddle.h"
 #include "GameObjectManager.h"
+#include "GameBall.h"
 
 class Game
 {
 
 public:
     static void Start();
+    const static int SCREEN_WIDTH = 1024;
+    const static int SCREEN_HEIGHT = 768;
 
 private:
     static bool IsExiting();

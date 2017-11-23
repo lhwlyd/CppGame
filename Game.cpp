@@ -8,13 +8,16 @@ void Game::Start( void ){
         return;
     }
 
-    _mainWindow.create(sf::VideoMode(1024, 768, 32), "Pang!");
+    _mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32), "Pang!");
 
     PlayerPaddle *player1 = new PlayerPaddle();
-    player1->Load( "images/paddle.png");
-    player1->SetPosition( (1024/2)-45, 700 );
+    player1->SetPosition( (SCREEN_WIDTH/2), 700 );
+
+    GameBall *ball = new GameBall();
+    ball->SetPosition( (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2)  - 15 );
 
     _gameObjectManager.Add("Paddle1", player1);
+    _gameObjectManager.Add("Ball", ball);
 
     _gameState = Game::ShowingSplash;
 
@@ -54,8 +57,9 @@ void Game::GameLoop(){
         {
             
             
-            _mainWindow.clear( sf::Color(255, 0, 0) );
+            _mainWindow.clear( sf::Color(0, 0, 0) );
             
+            _gameObjectManager.UpdateAll();
             _gameObjectManager.DrawAll(_mainWindow);
 
             _mainWindow.display();

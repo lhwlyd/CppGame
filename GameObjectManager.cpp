@@ -38,3 +38,15 @@ void GameObjectManager::DrawAll(sf::RenderWindow& renderWindow){
         ++it;
     }
 }
+
+void GameObjectManager::UpdateAll(){
+    auto itr = _gameObjects.begin();
+
+    float timeDelta = clock.restart().asSeconds();;
+
+    while( itr != _gameObjects.end() ){
+        itr->second->Update(timeDelta);
+        itr++;
+    }
+
+}
