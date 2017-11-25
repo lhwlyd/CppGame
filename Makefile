@@ -3,13 +3,15 @@ CXXFLAGS=-g -std=c++11 -Wall
 SFML_FLAGS=-lsfml-graphics -lsfml-window -lsfml-system
 #BIN=prog
 
-SRCS=$(wildcard *.cpp)
-OBJS=$(SRC:%.cpp=%.o)
+OBJS=pang.o SplashScreen.o MainMenu.o VisibleGameObject.o PlayerPaddle.o GameObjectManager.o GameBall.o Game.o
 
-all: play clean
+all: play
 
 pang.o: Game.h Game.cpp stdafx.h stdafx.cpp
 	g++ -c pang.cpp
+
+Game.o: Game.h
+	g++ -c Game.cpp
 
 SplashScreen.o: SplashScreen.h SplashScreen.cpp stdafx.h stdafx.cpp
 	g++ -c SplashScreen.cpp
@@ -30,7 +32,7 @@ GameBall.o: GameBall.h GameBall.cpp
 	g++ -c GameBall.cpp
 
 play: $(OBJS)
-	$(CXX) *.o -o play $(SFML_FLAGS)
+	$(CXX) $(OBJS) -o play $(SFML_FLAGS)
 
 .PHONY: clean
 clean:

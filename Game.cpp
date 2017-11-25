@@ -13,11 +13,15 @@ void Game::Start( void ){
     PlayerPaddle *player1 = new PlayerPaddle();
     player1->SetPosition( (SCREEN_WIDTH/2), 700 );
 
-    GameBall *ball = new GameBall();
-    ball->SetPosition( (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2)  - 15 );
+    GameBall *ball1 = new GameBall();
+    ball1->SetPosition( (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2)  - 15 );
+    
+    GameBall *ball2 = new GameBall();
+    ball2->SetPosition( (SCREEN_WIDTH/2), (SCREEN_HEIGHT/2)  + 100 )
 
     _gameObjectManager.Add("Paddle1", player1);
-    _gameObjectManager.Add("Ball", ball);
+    _gameObjectManager.Add("Ball1", ball1);
+    _gameObjectManager.Add("Ball2", ball2);
 
     _gameState = Game::ShowingSplash;
 
@@ -34,6 +38,20 @@ bool Game::IsExiting(){
     }else {
         return false;
     }
+}
+
+sf::RenderWindow& Game::GetWindow(){
+    return _mainWindow;
+}
+
+const sf::Event& Game::GetInput(){
+    sf::Event currentEvent;
+    _mainWindow.pollEvent(currentEvent);
+    return currentEvent;
+}
+
+const GameObjectManager& Game::GetGameObjectManager(){
+    return Game::_gameObjectManager;
 }
 
 void Game::GameLoop(){
@@ -59,7 +77,7 @@ void Game::GameLoop(){
             
             _mainWindow.clear( sf::Color(0, 0, 0) );
             
-            _gameObjectManager.UpdateAll();
+            _gameObjectManager.UpdateAll();            
             _gameObjectManager.DrawAll(_mainWindow);
 
             _mainWindow.display();

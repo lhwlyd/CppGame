@@ -5,6 +5,11 @@ public:
     VisibleGameObject();
     virtual ~VisibleGameObject();
 
+    virtual float GetWidth() const;
+    virtual float GetHeight() const;
+
+    virtual sf::Rect<float> GetBoundingRect() const;
+
     virtual void Load( std::string filename);
     virtual void Draw(sf::RenderWindow & window);
     virtual void Update(float elapsedTime);
